@@ -1,0 +1,2 @@
+PIN_LENGTH = 100  # 0.1 micron
+PIN_TEXT_SIZE = 0.1
