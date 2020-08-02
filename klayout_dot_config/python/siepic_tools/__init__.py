@@ -7,3 +7,4 @@ except ImportError:
     is_GSI = False
 
 from . import extend
+from . import utils
