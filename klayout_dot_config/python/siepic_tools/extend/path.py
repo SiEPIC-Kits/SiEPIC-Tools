@@ -16,7 +16,7 @@ pya.Path and pya.DPath Extensions:
   - unique_points(), remove all but one colinear points
   - translate_from_center(offset), returns a new path whose points have been offset
     by 'offset' from the center of the original path
-  - snap(pins), snaps the path in place to the nearest pin
+
 '''
 import pya
 
@@ -172,16 +172,16 @@ def patch_path(Path_Klass):
             return pya.DPath(tpts, self.width)
 
 
-    pya.Path_Klass.to_dtype = to_dtype
-    pya.Path_Klass.to_itype = to_itype
-    pya.Path_Klass.get_points = get_points
-    pya.Path_Klass.get_dpoints = get_dpoints
-    pya.Path_Klass.is_manhattan_endsegments = is_manhattan_endsegments
-    pya.Path_Klass.is_manhattan = is_manhattan
-    pya.Path_Klass.radius_check = radius_check
-    pya.Path_Klass.remove_colinear_points = remove_colinear_points
-    pya.Path_Klass.unique_points = unique_points
-    pya.Path_Klass.translate_from_center = translate_from_center
+    Path_Klass.to_dtype = to_dtype
+    Path_Klass.to_itype = to_itype
+    Path_Klass.get_points = get_points
+    Path_Klass.get_dpoints = get_dpoints
+    Path_Klass.is_manhattan_endsegments = is_manhattan_endsegments
+    Path_Klass.is_manhattan = is_manhattan
+    Path_Klass.radius_check = radius_check
+    Path_Klass.remove_colinear_points = remove_colinear_points
+    Path_Klass.unique_points = unique_points
+    Path_Klass.translate_from_center = translate_from_center
     #pya.Path.snap = snap
     #pya.Path.snap_m = snap_m # function added by Karl McNulty (RIT) for metal pin functionality
 
