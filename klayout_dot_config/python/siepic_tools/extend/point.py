@@ -54,6 +54,14 @@ def pyaPoint_norm(self):
     return sqrt(self.x ** 2 + self.y ** 2)
 
 
+def angle_vector(self):
+    """ Find the angle of a vector """
+    from math import atan2, pi
+    return (atan2(self.y, self.x)) / pi * 180
+
+Point.angle_vector = angle_vector
+DPoint.angle_vector = angle_vector
+
 for klass in PointLike:
     klass.__rmul__ = pyaPoint__rmul__
     klass.__mul__ = pyaPoint__mul__

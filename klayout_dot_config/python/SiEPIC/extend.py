@@ -1601,52 +1601,6 @@ pya.Instance.find_pins = find_pins
 pya.Instance.pinPoint = pinPoint
 
 
-#################################################################################
-#                    SiEPIC Class Extension of Point Class                      #
-#################################################################################
-
-# multiply an integer Point by a constant to get a float DPoint
-# new DPoint = Point.to_dtype(TECHNOLOGY['dbu'])
-def to_dtype(self, dbu):
-    # create a new empty list.  Otherwise, this function would modify the original list
-    # http://stackoverflow.com/questions/240178/python-list-of-lists-changes-reflected-across-sublists-unexpectedly
-    return pya.DPoint(self.x / (1 / dbu), self.y / (1 / dbu))
-    # > 15950 * 0.001 = 15.950000000000001
-    # > 15950 / (1/ 0.001) = 15.95
-
-
-def to_itype(self, dbu):
-    # create a new empty list.  Otherwise, this function would modify the original list
-    # http://stackoverflow.com/questions/240178/python-list-of-lists-changes-reflected-across-sublists-unexpectedly
-    return pya.Point(self.x / (dbu), self.y / (dbu))
-
-# *** Required for two Windows computers, but not others. Unknown.
-pya.Point.to_dtype = to_dtype
-
-pya.Point.to_itype = to_itype
-
-# in v > 0.24, these are built-in to KLayout
-if int(pya.Application.instance().version().split('.')[1]) < 25:
-
-    def to_p(self):
-        return self
-
-    pya.Point.to_dtype = to_dtype
-    pya.DPoint.to_itype = to_itype
-    pya.Point.to_p = to_p
-    pya.DPoint.to_p = to_p
-
-
-# Find the angle of a vector
-def angle_vector(u):
-    from math import atan2, pi
-    return (atan2(u.y, u.x)) / pi * 180
-
-
-pya.Point.angle_vector = angle_vector
-pya.DPoint.angle_vector = angle_vector
-
-
 
 '''
 dbu float-int extension:
