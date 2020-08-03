@@ -162,6 +162,7 @@ def xml_to_dict(t):
     return etree_to_dict(e)
 
 class Tech:
+    
     layers = None
 
     def __init__(self):
@@ -177,7 +178,7 @@ class Tech:
         layer_idx, datatype = layer_def.split("/")
         layer_idx = int(layer_idx)
         datatype = int(datatype)
-        self.layers[layer_name] = kdb.LayerInfo(layer_idx, datatype, layer_name)
+        self.layers[layer_name] = LayerInfo(layer_idx, datatype, layer_name)
 
     @classmethod
     def load_from_xml(cls, lyp_filename):
