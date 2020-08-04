@@ -15,4 +15,4 @@ except ImportError:
     op_tag = "script"
 
 from . import extend, _globals, core, examples, github, scripts, utils, setup, install
-from siepic_tools import *
+import siepic_tools
