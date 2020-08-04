@@ -52,7 +52,7 @@ except ImportError:
 if op_tag != 'script':
     KLAYOUT_VERSION = int(pya.Application.instance().version().split('.')[1])
 else:
-    KLAYOUT_VERSION = 0.26 # if script, 0.26 is the oldest possible version
+    KLAYOUT_VERSION = 26 # if script, 0.26 is the oldest possible version
 
 # Waveguide DevRec: space between the waveguide and the DevRec polygon
 WG_DEVREC_SPACE = 1
