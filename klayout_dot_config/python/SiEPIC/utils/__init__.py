@@ -696,11 +696,13 @@ def points_per_circle(radius):
     # radius in microns
     from math import acos, pi, ceil
     from . import get_technology
-    TECHNOLOGY = get_technology()
-    err = TECHNOLOGY['dbu'] / 2  # in nm  (there was an error here for a few years: a 1000X factor)
+    try:
+        TECHNOLOGY = get_technology()
+        err = TECHNOLOGY['dbu'] / 2  # in nm  (there was an error here for a few years: a 1000X factor)
+    except:
+        dbu = 0.001
+        err = dbu / 2
     return int(ceil(pi / acos(1 - err / radius))) if radius > 1 else 10 # Lukas' derivation (same answer as below)
-#    return int(ceil(2 * pi / acos(2 * (1 - err / radius)**2 - 1)))
-#    return int(ceil(2 * pi / acos(2 * (1 - err / radius)**2 - 1))) if radius > 100 else 100
 
 
 def arc(r, theta_start, theta_stop):
