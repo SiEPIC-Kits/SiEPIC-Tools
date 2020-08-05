@@ -48,7 +48,7 @@ cell_top.insert(CellInstArray(GC_imported, t, DPoint(0,GC_pitch).to_itype(dbu), 
 path = [[0.5*ly_width,0.5*ly_height-GC_pitch/2]] # start point
 path.append([0.5*ly_width+50,0.5*ly_height-GC_pitch/2])
 path.append([0.5*ly_width+50, 0.5*ly_height+GC_pitch/2])
-path.append([[0.5*ly_width,0.5*ly_height+GC_pitch/2]]) # end point
+path.append([0.5*ly_width,0.5*ly_height+GC_pitch/2]) # end point
 path = DPath([DPoint(each[0], each[1]) for each in path],0.5)
 path = path.to_itype(dbu)
 pts = path.get_points()
@@ -64,3 +64,5 @@ layout_waveguide2(lib, ly, cell_top, layers, widths, offset, pts, radius, False,
 cd_save = r"C:\Users\mhammood\Documents\GitHub\SiEPIC-Tools2\Examples\script_layouts\gc_shunt"
 os.chdir(cd_save)
 ly.write("gc_shunt.gds")
+
+# %%
