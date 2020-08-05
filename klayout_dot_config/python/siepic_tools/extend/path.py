@@ -94,7 +94,7 @@ def patch_path(Path_Klass):
             
     def remove_colinear_points(self, verbose=False):
         """ remove all but 1 colinear point """
-        from .utils import pt_intersects_segment, angle_b_vectors
+        from SiEPIC.utils import pt_intersects_segment, angle_b_vectors, angle_vector
         if self.__class__ == pya.Path:
             pts = self.get_points()
         else:
