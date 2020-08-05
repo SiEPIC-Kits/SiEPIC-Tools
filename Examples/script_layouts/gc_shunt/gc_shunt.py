@@ -12,7 +12,7 @@ try:
 except ImportError:
     import klayout.db as pya
 
-from pya import Box, Trans, CellInstArray, Point, DPoint, Path
+from pya import Box, Trans, CellInstArray, Point, DPoint, Path, DPath
 
 sys.path.append(cd_pdk+r"\pymacros")
 from GSiP_Library import *
@@ -25,6 +25,7 @@ ly = pya.Layout()
 dbu = ly.dbu = 0.001
 cell_top = ly.create_cell("Top")
 
+ly.prune_subcells(cell_top.cell_index(), 1000)
 #%%Define Layer mapping and floor plan
 layer_Si220 = 'Si'
 layer_floorplan = 'FloorPlan'
@@ -46,22 +47,23 @@ t = Trans(Trans.R0, 0.5*ly_width/dbu, (0.5*ly_height-GC_pitch/2)/dbu)
 cell_top.insert(CellInstArray(GC_imported, t, DPoint(0,GC_pitch).to_itype(dbu), Point(0,0), 2, 1))
 
 #%%draw waveguide connecting grating couplers
-path_pts = [[0,0], [0.5*ly_width+50,0], [0.5*ly_width+50, GC_pitch], [0,GC_pitch]]
-path_pts = [Point(each[0], each[1]) for each in path_pts]
-path = Path(); path.points = path_pts
+path_pts = [[0.5*ly_width,0.5*ly_height-GC_pitch/2], [0.5*ly_width+50,0.5*ly_height-GC_pitch/2], [0.5*ly_width+50, 0.5*ly_height+GC_pitch/2], [0.5*ly_width,0.5*ly_height+GC_pitch/2]]
+path_pts = DPath([DPoint(each[0], each[1]) for each in path_pts],0.5)
+path_pts = path_pts.to_itype(dbu)
 
 from siepic_tools.utils.layout import layout_waveguide, layout_waveguide2
 #layout_waveguide(cell_top, LayerSiN, path_pts, 0.5)
 
-widths = [0.5,1]
-layers = ['Si', 'DevRec']
-offset = [0,0]
+widths = [0.5]
+layers = ['Waveguide']
+offset = [0]
 radius = 15
-a = layout_waveguide2(lib, ly, cell_top, layers, widths, offset, path_pts, 15, 0,0)
 
-cd_save = r"C:\Users\mhammood\scripts\scripted_layout"
+pts = path_pts.get_points()
+a = layout_waveguide2(lib, ly, cell_top, layers, widths, offset, pts, radius, False,0)
 
+cd_save = r"C:\Users\mhammood\Documents\GitHub\SiEPIC-Tools2\Examples\script_layouts\gc_shunt"
 os.chdir(cd_save)
-ly.write("GSiP_loopback.gds")
+ly.write("gc_shunt.gds")
 
-# %%
+    # %%
