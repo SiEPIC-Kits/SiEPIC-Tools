@@ -92,13 +92,12 @@ def get_library_names(tech_name, verbose=False):
     library_names = []
     for lib_name in pya.Library.library_names():
         library = pya.Library.library_by_name(lib_name)
-        if KLAYOUT_VERSION > 27:  #  technologies in 0.27: https://www.klayout.de/doc-qt5/code/class_Library.html#method24
+        if KLAYOUT_VERSION > 25:  #  technologies in 0.26: https://www.klayout.de/doc-qt5/code/class_Library.html#method24
             if tech_name in library.technologies():
                 library_names.append(lib_name)
         else:
             if tech_name in library.technology:
                 library_names.append(lib_name)
-#            print("Cannot get library names since KLayout version is <= 27")
     print("get_library_names: tech=%s, lib: %s" % (tech_name, library_names))
     
     if not library_names:
@@ -106,30 +105,37 @@ def get_library_names(tech_name, verbose=False):
     
     return library_names
 
-def get_technology_by_name(tech_name, verbose=False):
+def get_technology_by_name(tech_name, tech_path = None, verbose=False):
     if verbose:
         print("get_technology_by_name()")
 
+    from .._globals import KLAYOUT_VERSION,op_tag
+
     if not tech_name:
-        pya.MessageBox.warning(
+        if op_tag == 'GUI':
+            pya.MessageBox.warning(
             "Problem with Technology", "Problem with active Technology: please activate a technology (not Default)", pya.MessageBox.Ok)
+        else:
+            print("Problem with active Technology: please activate a technology (not Default)")
         return
 
-    from .._globals import KLAYOUT_VERSION
     technology = {}
     technology['technology_name'] = tech_name
     if KLAYOUT_VERSION > 24:
         technology['dbu'] = pya.Technology.technology_by_name(tech_name).dbu
     else:
         technology['dbu'] = 0.001
+        print('Warning: assuming 0.001 um dbu.')
 
     import os
-    if KLAYOUT_VERSION > 24:
+
+    print(op_tag)
+    if op_tag != 'script':
         lyp_file = pya.Technology.technology_by_name(tech_name).eff_layer_properties_file()
         technology['base_path'] = pya.Technology.technology_by_name(tech_name).base_path()
     else:
         import fnmatch
-        dir_path = pya.Application.instance().application_data_path()
+        dir_path = tech_path
         search_str = '*' + tech_name + '.lyp'
         matches = []
         for root, dirnames, filenames in os.walk(dir_path, followlinks=True):
@@ -139,11 +145,15 @@ def get_technology_by_name(tech_name, verbose=False):
             lyp_file = matches[0]
         else:
             raise Exception('Cannot find technology layer properties file %s' % search_str)
-        # technology['base_path']
+        technology['base_path'] = tech_path
 
     # Load CML file location
     head, tail = os.path.split(lyp_file)
-    technology['base_path'] = head
+    #technology['base_path'] = head
+
+    print(lyp_file)
+    print(technology['base_path'])
+
     cml_files = [x for x in os.listdir(technology['base_path']) if x.lower().endswith(".cml")]
     if cml_files:
         technology['INTC_CML'] = cml_files[-1]
