@@ -64,10 +64,6 @@ pya.Point Extensions:
 
 import pya
 
-warning = pya.QMessageBox()
-warning.setStandardButtons(pya.QMessageBox.Ok)
-warning.setDefaultButton(pya.QMessageBox.Ok)
-
 
 #################################################################################
 #                SiEPIC Class Extension of Layout Class                         #
