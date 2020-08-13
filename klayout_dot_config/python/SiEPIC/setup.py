@@ -3,7 +3,7 @@ import pya
 
 def registerMenuItems():
     import os
-    from . import scripts, examples, lumerical, install
+    from . import scripts, lumerical, install
     import SiEPIC.__init__
 
     global ACTIONS
