@@ -14,5 +14,5 @@ except ImportError:
     import klayout.db as pya
     op_tag = "script"
 
-from . import extend, _globals, core, examples, github, scripts, utils, setup, install
+from . import extend, _globals, core, github, scripts, utils, setup, install
 import siepic_tools
